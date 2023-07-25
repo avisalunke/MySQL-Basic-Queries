@@ -1,0 +1,539 @@
+mysql> create database mysq;
+Query OK, 1 row affected (21.21 sec)
+
+
+mysql> use mysq;
+Database changed
+mysql> select database();
++------------+
+| database() |
++------------+
+| mysq       |
++------------+
+1 row in set (0.00 sec)
+
+mysql> CREATE TABLE IF NOT EXISTS products (
+    ->          productID    INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+    ->          productCode  CHAR(3)       NOT NULL DEFAULT '',
+    ->          name         VARCHAR(30)   NOT NULL DEFAULT '',
+    ->          quantity     INT UNSIGNED  NOT NULL DEFAULT 0,
+    ->          price        DECIMAL(7,2)  NOT NULL DEFAULT 99999.99,
+    ->          PRIMARY KEY  (productID)
+    ->        );
+Query OK, 0 rows affected (58.49 sec)
+
+mysql> drop table products;
+Query OK, 0 rows affected (31.57 sec)
+
+mysql> CREATE TABLE IF NOT EXISTS products (productID   int   unsigned not null auto_increment , productCode  char(3) not null default '', name varchar(30) not null,quantity int unsigned not null default 0,price decimal(7,2) not null default 99999.99, primary key (productID) );
+Query OK, 0 rows affected (7.82 sec)
+
+mysql> drop table products;
+Query OK, 0 rows affected (1 min 18.16 sec)
+
+mysql> select 1+1;
++-----+
+| 1+1 |
++-----+
+|   2 |
++-----+
+1 row in set (1.17 sec)
+
+mysql> select now();
++---------------------+
+| now()               |
++---------------------+
+| 2023-07-25 10:24:19 |
++---------------------+
+1 row in set (1.02 sec)
+
+mysql> select 1+1,now();
++-----+---------------------+
+| 1+1 | now()               |
++-----+---------------------+
+|   2 | 2023-07-25 10:24:43 |
++-----+---------------------+
+1 row in set (0.00 sec)
+
+mysql> create table products (productID int unsigned not null auto_increment,productCode char(3) not null default '',name varchar(30) not null default '', quantity int (10) unsigned not null default '0',price decimal (7,2) not null default '99999.99',primary key (productID));
+Query OK, 0 rows affected, 1 warning (32.03 sec)
+
+mysql> desc products;
++-------------+--------------+------+-----+----------+----------------+
+| Field       | Type         | Null | Key | Default  | Extra          |
++-------------+--------------+------+-----+----------+----------------+
+| productID   | int unsigned | NO   | PRI | NULL     | auto_increment |
+| productCode | char(3)      | NO   |     |          |                |
+| name        | varchar(30)  | NO   |     |          |                |
+| quantity    | int unsigned | NO   |     | 0        |                |
+| price       | decimal(7,2) | NO   |     | 99999.99 |                |
++-------------+--------------+------+-----+----------+----------------+
+5 rows in set (8.03 sec)
+
+mysql> insert into products values(1001,'PEN'  ,'pen red' ,5000,1.34);
+Query OK, 1 row affected (12.04 sec)
+
+mysql> insert into products values(1002,'PIN'  ,'pin rod' , 500 , 1.04 ),(1003,'BOB','BoB marley',300,44.89);
+Query OK, 2 rows affected (5.23 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> insert into products (productCode,name,quantity,price) values('lIN'  ,'lin rod' , 5500 , 51.04 ),('BbB','BbB marley', 7300 , 7844.89);
+Query OK, 2 rows affected (20.40 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> insert into products (productCode, name) values('OPO','opiun mo');
+Query OK, 1 row affected (0.47 sec)
+
+mysql> select *from products;
++-----------+-------------+------------+----------+----------+
+| productID | productCode | name       | quantity | price    |
++-----------+-------------+------------+----------+----------+
+|      1001 | PEN         | pen red    |     5000 |     1.34 |
+|      1002 | PIN         | pin rod    |      500 |     1.04 |
+|      1003 | BOB         | BoB marley |      300 |    44.89 |
+|      1004 | lIN         | lin rod    |     5500 |    51.04 |
+|      1005 | BbB         | BbB marley |     7300 |  7844.89 |
+|      1006 | OPO         | opiun mo   |        0 | 99999.99 |
++-----------+-------------+------------+----------+----------+
+6 rows in set (0.13 sec)
+
+mysql> delete from products where productID=1006;
+Query OK, 1 row affected (0.96 sec)
+
+mysql> select *from products;
++-----------+-------------+------------+----------+---------+
+| productID | productCode | name       | quantity | price   |
++-----------+-------------+------------+----------+---------+
+|      1001 | PEN         | pen red    |     5000 |    1.34 |
+|      1002 | PIN         | pin rod    |      500 |    1.04 |
+|      1003 | BOB         | BoB marley |      300 |   44.89 |
+|      1004 | lIN         | lin rod    |     5500 |   51.04 |
+|      1005 | BbB         | BbB marley |     7300 | 7844.89 |
++-----------+-------------+------------+----------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select name ,price from products;
++------------+---------+
+| name       | price   |
++------------+---------+
+| pen red    |    1.34 |
+| pin rod    |    1.04 |
+| BoB marley |   44.89 |
+| lin rod    |   51.04 |
+| BbB marley | 7844.89 |
++------------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select name ,price from products where price<2;
++---------+-------+
+| name    | price |
++---------+-------+
+| pen red |  1.34 |
+| pin rod |  1.04 |
++---------+-------+
+2 rows in set (0.16 sec)
+
+mysql> select name , quantity  from products where quantity <=5500;
++------------+----------+
+| name       | quantity |
++------------+----------+
+| pen red    |     5000 |
+| pin rod    |      500 |
+| BoB marley |      300 |
+| lin rod    |     5500 |
++------------+----------+
+4 rows in set (0.08 sec)
+
+mysql> select name , quantity  from products where productCode like 'p%';
++---------+----------+
+| name    | quantity |
++---------+----------+
+| pen red |     5000 |
+| pin rod |      500 |
++---------+----------+
+2 rows in set (4.91 sec)
+
+mysql> select name , quantity ,productCode from products where productCode like 'p%';
++---------+----------+-------------+
+| name    | quantity | productCode |
++---------+----------+-------------+
+| pen red |     5000 | PEN         |
+| pin rod |      500 | PIN         |
++---------+----------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> select name , quantity ,productCode from products where productCode like 'p_n%';
++---------+----------+-------------+
+| name    | quantity | productCode |
++---------+----------+-------------+
+| pen red |     5000 | PEN         |
+| pin rod |      500 | PIN         |
++---------+----------+-------------+
+2 rows in set (0.09 sec)
+
+mysql> select name , quantity ,productCode from products where name like '___ r%';
++---------+----------+-------------+
+| name    | quantity | productCode |
++---------+----------+-------------+
+| pen red |     5000 | PEN         |
+| pin rod |      500 | PIN         |
+| lin rod |     5500 | lIN         |
++---------+----------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> select name , quantity ,productCode from products where name like '___ m';
+Empty set (0.00 sec)
+
+mysql> select name , quantity ,productCode from products where name like '___ m%';
++------------+----------+-------------+
+| name       | quantity | productCode |
++------------+----------+-------------+
+| BoB marley |      300 | BOB         |
+| BbB marley |     7300 | BbB         |
++------------+----------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> select name , quantity ,productCode from products where name like 'm%';
+Empty set (0.00 sec)
+
+mysql> select name , quantity ,productCode from products where name like '___m%';
+Empty set (0.00 sec)
+
+mysql> select name , quantity ,productCode from products where name like '___ m%';
++------------+----------+-------------+
+| name       | quantity | productCode |
++------------+----------+-------------+
+| BoB marley |      300 | BOB         |
+| BbB marley |     7300 | BbB         |
++------------+----------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> select name , quantity ,productCode from products where name like ' m%';
+Empty set (0.00 sec)
+
+mysql> select * from products;
++-----------+-------------+------------+----------+---------+
+| productID | productCode | name       | quantity | price   |
++-----------+-------------+------------+----------+---------+
+|      1001 | PEN         | pen red    |     5000 |    1.34 |
+|      1002 | PIN         | pin rod    |      500 |    1.04 |
+|      1003 | BOB         | BoB marley |      300 |   44.89 |
+|      1004 | lIN         | lin rod    |     5500 |   51.04 |
+|      1005 | BbB         | BbB marley |     7300 | 7844.89 |
++-----------+-------------+------------+----------+---------+
+5 rows in set (1.31 sec)
+
+mysql> select * from products order by productID;
++-----------+-------------+------------+----------+---------+
+| productID | productCode | name       | quantity | price   |
++-----------+-------------+------------+----------+---------+
+|      1001 | PEN         | pen red    |     5000 |    1.34 |
+|      1002 | PIN         | pin rod    |      500 |    1.04 |
+|      1003 | BOB         | BoB marley |      300 |   44.89 |
+|      1004 | lIN         | lin rod    |     5500 |   51.04 |
+|      1005 | BbB         | BbB marley |     7300 | 7844.89 |
++-----------+-------------+------------+----------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select * from products order by productID desc;
++-----------+-------------+------------+----------+---------+
+| productID | productCode | name       | quantity | price   |
++-----------+-------------+------------+----------+---------+
+|      1005 | BbB         | BbB marley |     7300 | 7844.89 |
+|      1004 | lIN         | lin rod    |     5500 |   51.04 |
+|      1003 | BOB         | BoB marley |      300 |   44.89 |
+|      1002 | PIN         | pin rod    |      500 |    1.04 |
+|      1001 | PEN         | pen red    |     5000 |    1.34 |
++-----------+-------------+------------+----------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select * from products limit 2;
++-----------+-------------+---------+----------+-------+
+| productID | productCode | name    | quantity | price |
++-----------+-------------+---------+----------+-------+
+|      1001 | PEN         | pen red |     5000 |  1.34 |
+|      1002 | PIN         | pin rod |      500 |  1.04 |
++-----------+-------------+---------+----------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from products limit 2,1;
++-----------+-------------+------------+----------+-------+
+| productID | productCode | name       | quantity | price |
++-----------+-------------+------------+----------+-------+
+|      1003 | BOB         | BoB marley |      300 | 44.89 |
++-----------+-------------+------------+----------+-------+
+1 row in set (0.00 sec)
+
+mysql> select productID as id,productCode as code,name ,quantity as quan ,price as money from products;
++------+------+------------+------+---------+
+| id   | code | name       | quan | money   |
++------+------+------------+------+---------+
+| 1001 | PEN  | pen red    | 5000 |    1.34 |
+| 1002 | PIN  | pin rod    |  500 |    1.04 |
+| 1003 | BOB  | BoB marley |  300 |   44.89 |
+| 1004 | lIN  | lin rod    | 5500 |   51.04 |
+| 1005 | BbB  | BbB marley | 7300 | 7844.89 |
++------+------+------------+------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select productID ,concat(productCode,'-',name) from products;
++-----------+------------------------------+
+| productID | concat(productCode,'-',name) |
++-----------+------------------------------+
+|      1001 | PEN-pen red                  |
+|      1002 | PIN-pin rod                  |
+|      1003 | BOB-BoB marley               |
+|      1004 | lIN-lin rod                  |
+|      1005 | BbB-BbB marley               |
++-----------+------------------------------+
+5 rows in set (1.48 sec)
+
+mysql> select count(*) as 'rows' from products;
++------+
+| rows |
++------+
+|    5 |
++------+
+1 row in set (20.32 sec)
+
+mysql> select productCode, count(*) from products group by productCode;
++-------------+----------+
+| productCode | count(*) |
++-------------+----------+
+| PEN         |        1 |
+| PIN         |        1 |
+| BOB         |        1 |
+| lIN         |        1 |
+| BbB         |        1 |
++-------------+----------+
+5 rows in set (0.47 sec)
+
+mysql> select MAX(price),min(price),avg(price),std(price),sum(price) from products;
++------------+------------+-------------+--------------------+------------+
+| MAX(price) | min(price) | avg(price)  | std(price)         | sum(price) |
++------------+------------+-------------+--------------------+------------+
+|    7844.89 |       1.04 | 1588.640000 | 3128.1955480755996 |    7943.20 |
++------------+------------+-------------+--------------------+------------+
+1 row in set (8.53 sec)
+
+mysql> update products set  price =price *11;
+Query OK, 5 rows affected (22.61 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> select *from products;
++-----------+-------------+------------+----------+----------+
+| productID | productCode | name       | quantity | price    |
++-----------+-------------+------------+----------+----------+
+|      1001 | PEN         | pen red    |     5000 |    14.74 |
+|      1002 | PIN         | pin rod    |      500 |    11.44 |
+|      1003 | BOB         | BoB marley |      300 |   493.79 |
+|      1004 | lIN         | lin rod    |     5500 |   561.44 |
+|      1005 | BbB         | BbB marley |     7300 | 86293.79 |
++-----------+-------------+------------+----------+----------+
+5 rows in set (0.00 sec)
+
+mysql> update products set quantity = quantity-100 where name like '___ r%';
+Query OK, 3 rows affected (6.32 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select *from products where name like '___ r%';
++-----------+-------------+---------+----------+--------+
+| productID | productCode | name    | quantity | price  |
++-----------+-------------+---------+----------+--------+
+|      1001 | PEN         | pen red |     4900 |  14.74 |
+|      1002 | PIN         | pin rod |      400 |  11.44 |
+|      1004 | lIN         | lin rod |     5400 | 561.44 |
++-----------+-------------+---------+----------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from products;
++-----------+-------------+------------+----------+----------+
+| productID | productCode | name       | quantity | price    |
++-----------+-------------+------------+----------+----------+
+|      1001 | PEN         | pen red    |     4900 |    14.74 |
+|      1002 | PIN         | pin rod    |      400 |    11.44 |
+|      1003 | BOB         | BoB marley |      300 |   493.79 |
+|      1004 | lIN         | lin rod    |     5400 |   561.44 |
+|      1005 | BbB         | BbB marley |     7300 | 86293.79 |
++-----------+-------------+------------+----------+----------+
+5 rows in set (0.00 sec)
+
+mysql> update products set productCode='BpB' , price= 400 where productCode='lIN';
+Query OK, 1 row affected (0.57 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select *from products;
++-----------+-------------+------------+----------+----------+
+| productID | productCode | name       | quantity | price    |
++-----------+-------------+------------+----------+----------+
+|      1001 | PEN         | pen red    |     4900 |    14.74 |
+|      1002 | PIN         | pin rod    |      400 |    11.44 |
+|      1003 | BOB         | BoB marley |      300 |   493.79 |
+|      1004 | BpB         | lin rod    |     5400 |   400.00 |
+|      1005 | BbB         | BbB marley |     7300 | 86293.79 |
++-----------+-------------+------------+----------+----------+
+5 rows in set (0.00 sec)
+
+mysql> create table suppliers (supplierId int unsigned not null auto_increment, name varchar (30) not null default '', phone char (8) not null default '',primary key(supplierId));
+Query OK, 0 rows affected (1 min 3.25 sec)
+
+mysql> desc suppliers;
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| supplierId | int unsigned | NO   | PRI | NULL    | auto_increment |
+| name       | varchar(30)  | NO   |     |         |                |
+| phone      | char(8)      | NO   |     |         |                |
++------------+--------------+------+-----+---------+----------------+
+3 rows in set (3.14 sec)
+
+mysql> insert into suppliers values( 501,'ABC traders',8989898),(502,'XYZ company',89898909),(503,'QQ corp',232323);
+Query OK, 3 rows affected (13.78 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> alter table products add column supplierId int unsigned not null;
+Query OK, 0 rows affected (21.51 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> update products set supplierId=501;
+Query OK, 5 rows affected (9.13 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> alter table products add foreign key(supplierId) references suppliers (supplierId);
+Query OK, 5 rows affected (52.32 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> desc products;
++-------------+--------------+------+-----+----------+----------------+
+| Field       | Type         | Null | Key | Default  | Extra          |
++-------------+--------------+------+-----+----------+----------------+
+| productID   | int unsigned | NO   | PRI | NULL     | auto_increment |
+| productCode | char(3)      | NO   |     |          |                |
+| name        | varchar(30)  | NO   |     |          |                |
+| quantity    | int unsigned | NO   |     | 0        |                |
+| price       | decimal(7,2) | NO   |     | 99999.99 |                |
+| supplierId  | int unsigned | NO   | MUL | NULL     |                |
++-------------+--------------+------+-----+----------+----------------+
+6 rows in set (0.98 sec)
+
+mysql> select products.name ,price ,suppliers.name from products  join suppliers on products.supplierId=suppliers.supplierId;
++------------+----------+-------------+
+| name       | price    | name        |
++------------+----------+-------------+
+| pen red    |    14.74 | ABC traders |
+| pin rod    |    11.44 | ABC traders |
+| BoB marley |   493.79 | ABC traders |
+| lin rod    |   400.00 | ABC traders |
+| BbB marley | 86293.79 | ABC traders |
++------------+----------+-------------+
+5 rows in set (1.08 sec)
+
+mysql> select *from products;
++-----------+-------------+------------+----------+----------+------------+
+| productID | productCode | name       | quantity | price    | supplierId |
++-----------+-------------+------------+----------+----------+------------+
+|      1001 | PEN         | pen red    |     4900 |    14.74 |        501 |
+|      1002 | PIN         | pin rod    |      400 |    11.44 |        501 |
+|      1003 | BOB         | BoB marley |      300 |   493.79 |        501 |
+|      1004 | BpB         | lin rod    |     5400 |   400.00 |        501 |
+|      1005 | BbB         | BbB marley |     7300 | 86293.79 |        501 |
++-----------+-------------+------------+----------+----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select *from suppliers;
++------------+-------------+----------+
+| supplierId | name        | phone    |
++------------+-------------+----------+
+|        501 | ABC traders | 8989898  |
+|        502 | XYZ company | 89898909 |
+|        503 | QQ corp     | 232323   |
++------------+-------------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select * from products  join suppliers on products.supplierId=suppliers.supplierId;
++-----------+-------------+------------+----------+----------+------------+------------+-------------+---------+
+| productID | productCode | name       | quantity | price    | supplierId | supplierId | name        | phone   |
++-----------+-------------+------------+----------+----------+------------+------------+-------------+---------+
+|      1001 | PEN         | pen red    |     4900 |    14.74 |        501 |        501 | ABC traders | 8989898 |
+|      1002 | PIN         | pin rod    |      400 |    11.44 |        501 |        501 | ABC traders | 8989898 |
+|      1003 | BOB         | BoB marley |      300 |   493.79 |        501 |        501 | ABC traders | 8989898 |
+|      1004 | BpB         | lin rod    |     5400 |   400.00 |        501 |        501 | ABC traders | 8989898 |
+|      1005 | BbB         | BbB marley |     7300 | 86293.79 |        501 |        501 | ABC traders | 8989898 |
++-----------+-------------+------------+----------+----------+------------+------------+-------------+---------+
+5 rows in set (0.00 sec)
+
+mysql> insert into products values(1006,'PUC','PUC PiPE',765,8900.90,503),(1007,'CPU','CPU op',67890,23.54,503 );
+Query OK, 2 rows affected (2.68 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> insert into suppliers values(504,'KOK ltd',789987),(505,'TATA mt',9876543);
+Query OK, 2 rows affected (1.37 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from products  join suppliers on products.supplierId=suppliers.supplierId;
++-----------+-------------+------------+----------+----------+------------+------------+-------------+---------+
+| productID | productCode | name       | quantity | price    | supplierId | supplierId | name        | phone   |
++-----------+-------------+------------+----------+----------+------------+------------+-------------+---------+
+|      1001 | PEN         | pen red    |     4900 |    14.74 |        501 |        501 | ABC traders | 8989898 |
+|      1002 | PIN         | pin rod    |      400 |    11.44 |        501 |        501 | ABC traders | 8989898 |
+|      1003 | BOB         | BoB marley |      300 |   493.79 |        501 |        501 | ABC traders | 8989898 |
+|      1004 | BpB         | lin rod    |     5400 |   400.00 |        501 |        501 | ABC traders | 8989898 |
+|      1005 | BbB         | BbB marley |     7300 | 86293.79 |        501 |        501 | ABC traders | 8989898 |
+|      1006 | PUC         | PUC PiPE   |      765 |  8900.90 |        503 |        503 | QQ corp     | 232323  |
+|      1007 | CPU         | CPU op     |    67890 |    23.54 |        503 |        503 | QQ corp     | 232323  |
++-----------+-------------+------------+----------+----------+------------+------------+-------------+---------+
+7 rows in set (0.00 sec)
+
+mysql> select * from products right join suppliers on products.supplierId=suppliers.supplierId;
++-----------+-------------+------------+----------+----------+------------+------------+-------------+----------+
+| productID | productCode | name       | quantity | price    | supplierId | supplierId | name        | phone    |
++-----------+-------------+------------+----------+----------+------------+------------+-------------+----------+
+|      1001 | PEN         | pen red    |     4900 |    14.74 |        501 |        501 | ABC traders | 8989898  |
+|      1002 | PIN         | pin rod    |      400 |    11.44 |        501 |        501 | ABC traders | 8989898  |
+|      1003 | BOB         | BoB marley |      300 |   493.79 |        501 |        501 | ABC traders | 8989898  |
+|      1004 | BpB         | lin rod    |     5400 |   400.00 |        501 |        501 | ABC traders | 8989898  |
+|      1005 | BbB         | BbB marley |     7300 | 86293.79 |        501 |        501 | ABC traders | 8989898  |
+|      NULL | NULL        | NULL       |     NULL |     NULL |       NULL |        502 | XYZ company | 89898909 |
+|      1006 | PUC         | PUC PiPE   |      765 |  8900.90 |        503 |        503 | QQ corp     | 232323   |
+|      1007 | CPU         | CPU op     |    67890 |    23.54 |        503 |        503 | QQ corp     | 232323   |
+|      NULL | NULL        | NULL       |     NULL |     NULL |       NULL |        504 | KOK ltd     | 789987   |
+|      NULL | NULL        | NULL       |     NULL |     NULL |       NULL |        505 | TATA mt     | 9876543  |
++-----------+-------------+------------+----------+----------+------------+------------+-------------+----------+
+10 rows in set (0.09 sec)
+
+mysql> show index from products \G
+*************************** 1. row ***************************
+        Table: products
+   Non_unique: 0
+     Key_name: PRIMARY
+ Seq_in_index: 1
+  Column_name: productID
+    Collation: A
+  Cardinality: 7
+     Sub_part: NULL
+       Packed: NULL
+         Null:
+   Index_type: BTREE
+      Comment:
+Index_comment:
+      Visible: YES
+   Expression: NULL
+*************************** 2. row ***************************
+        Table: products
+   Non_unique: 1
+     Key_name: supplierId
+ Seq_in_index: 1
+  Column_name: supplierId
+    Collation: A
+  Cardinality: 2
+     Sub_part: NULL
+       Packed: NULL
+         Null:
+   Index_type: BTREE
+      Comment:
+Index_comment:
+      Visible: YES
+   Expression: NULL
+2 rows in set (7.57 sec)
+
+mysql>
